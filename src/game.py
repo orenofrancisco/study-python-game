@@ -1,7 +1,9 @@
 import sys
 import pygame
+
 from settings import Settings
 from ship import Ship
+import game_functions as gf
 
 def run_game():
     """ Initialize game and create a screen object """
@@ -16,16 +18,10 @@ def run_game():
     ship = Ship(screen)
 
     while True:
-        # Monitor for KB/M events
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                sys.exit()
+        # Check for events
+        gf.check_events()
 
         # Draw calls
-        screen.fill(game_settings.bg_color)
-        ship.blit_me()
-
-        # Refresh screen
-        pygame.display.flip()
+        gf.update_screen(game_settings, screen, ship)
 
 run_game()
