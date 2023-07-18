@@ -15,7 +15,7 @@ def run_game():
     pygame.display.set_caption(game_settings.window_caption)
 
     # Create player object
-    ship = Ship(screen)
+    ship = Ship(game_settings, screen)
 
     while True:
         # Check for events
