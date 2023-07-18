@@ -6,4 +6,4 @@ class Settings():
     def __init__(self):
         self.screen_size = (800,600)
         self.window_caption = "Space Invaders"
-        self.bg_color = (230, 230, 230)
+        self.bg_color = (85, 205, 255)

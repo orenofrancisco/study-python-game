@@ -19,7 +19,10 @@ def run_game():
 
     while True:
         # Check for events
-        gf.check_events()
+        gf.check_events(ship)
+
+        # Update game logic
+        ship.update()
 
         # Draw calls
         gf.update_screen(game_settings, screen, ship)

@@ -11,3 +11,5 @@ For future prospective employers that may be reading, I will make efforts on the
 - Appropriate build scripts for well supported platforms
 
 Have a good day, thank you for reading.
+
+Visual assets made by [Kenney](https://kenney.nl/), all credit to him/them.
