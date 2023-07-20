@@ -1,5 +1,6 @@
 import sys
 import pygame
+from pygame.sprite import Group
 
 from settings import Settings
 from ship import Ship
@@ -16,15 +17,18 @@ def run_game():
 
     # Create player object
     ship = Ship(game_settings, screen)
+    # A [Group] is a special list made inside pygame
+    bullets = Group()
 
     while True:
         # Check for events
-        gf.check_events(ship)
+        gf.check_events(game_settings, screen, ship, bullets)
 
         # Update game logic
         ship.update()
+        bullets.update()
 
         # Draw calls
-        gf.update_screen(game_settings, screen, ship)
+        gf.update_screen(game_settings, screen, ship, bullets)
 
 run_game()
