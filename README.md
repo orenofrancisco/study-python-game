@@ -2,7 +2,7 @@
 
 This is a learning project to study Python.
 
-It is a Space Invaders clone made with free assets, and following instructions from the book "Python Crash Course (1st Edition)"
+It is a ~~Space Invaders~~ **Gradius** clone made with free assets, and following instructions from the book "Python Crash Course (1st Edition)"
 
 For future prospective employers that may be reading, I will make efforts on the following:
 - Appropriate test cases for each function and class
