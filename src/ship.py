@@ -13,20 +13,20 @@ class Ship():
         self.screen_rect = self.screen.get_rect()
 
         # Get the ship picture and store statistics about it
-        self.color = 'green'    # ok for green, blue, red or yellow
+        self.color = 'red'    # ok for green, blue, red or yellow
         self.image = pygame.image.load("../images/ship_" + self.color + ".png").convert_alpha()
         self.rect = self.image.get_rect()
 
-        # The ship should spawn in the middle of the screen, bottom row
-        self.rect.centerx = self.screen_rect.centerx
-        self.rect.bottom = self.screen_rect.bottom
+        # The ship should spawn in the middle of the screen, left edge
+        self.rect.centery = self.screen_rect.centery
+        self.rect.left = self.screen_rect.left
 
         # Store a float for the center to make it smooth
-        self.center = float(self.rect.centerx)
+        self.center = float(self.rect.centery)
 
         # Movement flags
-        self.moving_right = False
-        self.moving_left = False
+        self.moving_up = False
+        self.moving_down = False
     
     def blit_me(self):
         # blit(what, where)
@@ -34,10 +34,10 @@ class Ship():
 
     def update(self):
         # This method relies on the movement flags set up during init()
-        if self.moving_right and self.rect.right < self.screen_rect.right:
-            self.center += self.settings.ship_speed_factor
-        if self.moving_left and self.rect.left > 0:
+        if self.moving_up and self.rect.top > 0:
             self.center -= self.settings.ship_speed_factor
+        if self.moving_down and self.rect.bottom < self.screen_rect.bottom:
+            self.center += self.settings.ship_speed_factor
 
         # Update coordinates
-        self.rect.centerx = self.center
+        self.rect.centery = self.center

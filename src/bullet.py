@@ -7,24 +7,24 @@ class Bullet(Sprite):
         super().__init__()
         self.screen = screen
 
-        # Bullets spawn at the ship's location
+        # Bullets spawn at the origin (0, 0)
         self.rect = pygame.Rect(0, 0, settings.bullet_width, settings.bullet_height)
 
         # Then move it to the ship's position, specifically the nose of the ship
-        self.rect.centerx = ship.rect.centerx
-        self.rect.top = ship.rect.top
+        self.rect.centery = ship.rect.centery
+        self.rect.right = ship.rect.right
 
         # Store the bullet's position as a float
-        self.y = float(self.rect.y)
+        self.x = float(self.rect.x)
 
         # Copy the remaining settings here
         self.color = settings.bullet_color
         self.speed_factor = settings.bullet_speed_factor
 
     def update(self):
-        # Move the bullet up
-        self.y -= self.speed_factor
-        self.rect.y = self.y
+        # Move the bullet to the right edge
+        self.x += self.speed_factor
+        self.rect.x = self.x
 
     def draw_bullet(self):
         # Draw the bullet to the screen

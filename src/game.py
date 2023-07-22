@@ -26,7 +26,7 @@ def run_game():
 
         # Update game logic
         ship.update()
-        gf.update_bullets(bullets)
+        gf.update_bullets(bullets, screen)
 
         # Draw calls
         gf.update_screen(game_settings, screen, ship, bullets)

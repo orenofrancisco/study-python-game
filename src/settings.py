@@ -6,7 +6,7 @@ class Settings():
     def __init__(self):
         # Screen and window related settings
         self.screen_size = (800,600)
-        self.window_caption = "Space Invaders"
+        self.window_caption = "Gradius"
         self.bg_color = (85, 205, 255)
 
         # Ship related settings
@@ -14,7 +14,7 @@ class Settings():
 
         # Bullet settings
         self.bullet_speed_factor = 10
-        self.bullet_width = 3
-        self.bullet_height = 15
+        self.bullet_width = 15
+        self.bullet_height = 3
         self.bullet_color = (60, 60, 60)
         self.max_bullets = 5
