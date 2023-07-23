@@ -5,7 +5,9 @@ class Settings():
 
     def __init__(self):
         # Screen and window related settings
-        self.screen_size = (800,600)
+        self.screen_width = 800
+        self.screen_height = 480
+        self.screen_size = (self.screen_width, self.screen_height)
         self.window_caption = "Space Invaders"
         self.bg_color = (85, 205, 255)
 

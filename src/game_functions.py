@@ -20,6 +20,8 @@ def check_keydown_events(event, settings, screen, ship, bullets):
         ship.moving_left = True
     if event.key == pygame.K_SPACE:
         fire_bullet(settings, screen, ship, bullets)
+    if event.key == pygame.K_q: # Case insensitive, this procs for [q] and [Q]
+        sys.exit()
 
 def check_keyup_events(event, settings, screen, ship, bullets):
     # This function only handles deactivating the lateral movement of the ship
@@ -28,10 +30,12 @@ def check_keyup_events(event, settings, screen, ship, bullets):
     if event.key == pygame.K_LEFT:
         ship.moving_left = False
 
-def update_screen(settings, screen, ship, bullets):
+def update_screen(settings, screen, ship, alien, bullets):
     # Draw calls
     screen.fill(settings.bg_color)
+
     ship.blit_me()
+    alien.blit_me()
     for bullet in bullets.sprites():
         bullet.draw_bullet()
 

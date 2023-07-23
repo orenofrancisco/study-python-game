@@ -4,6 +4,7 @@ from pygame.sprite import Group
 
 from settings import Settings
 from ship import Ship
+from alien import Alien
 import game_functions as gf
 
 def run_game():
@@ -17,8 +18,12 @@ def run_game():
 
     # Create player object
     ship = Ship(game_settings, screen)
+    
     # A [Group] is a special list made inside pygame
     bullets = Group()
+
+    # Instance an alien
+    alien = Alien(game_settings, screen)
 
     while True:
         # Check for events
@@ -29,6 +34,6 @@ def run_game():
         gf.update_bullets(bullets)
 
         # Draw calls
-        gf.update_screen(game_settings, screen, ship, bullets)
+        gf.update_screen(game_settings, screen, ship, alien, bullets)
 
 run_game()
