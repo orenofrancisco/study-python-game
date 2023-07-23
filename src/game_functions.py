@@ -1,6 +1,7 @@
 import sys
 import pygame
 from bullet import Bullet
+from alien import Alien
 
 def check_events(settings, screen, ship, bullets):
     # Monitor for KB/M events
@@ -30,12 +31,13 @@ def check_keyup_events(event, settings, screen, ship, bullets):
     if event.key == pygame.K_LEFT:
         ship.moving_left = False
 
-def update_screen(settings, screen, ship, alien, bullets):
+def update_screen(settings, screen, ship, aliens, bullets):
     # Draw calls
     screen.fill(settings.bg_color)
 
     ship.blit_me()
-    alien.blit_me()
+    aliens.draw(screen)
+
     for bullet in bullets.sprites():
         bullet.draw_bullet()
 
@@ -57,3 +59,20 @@ def fire_bullet(settings, screen, ship, bullets):
         new_bullet = Bullet(settings, screen, ship)
         bullets.add(new_bullet)
 
+def create_fleet(settings, screen, aliens):
+    # This function has 3 steps:
+    #   1 - Determine how many aliens fit laterally and create a 'row' of aliens
+    #   2 - Determine how many aliens fit vertically and call that [n]
+    #   3 - Run step [1], [n] times
+
+    alien = Alien(settings, screen)
+    alien_width = alien.rect.width
+    available_space_x = settings.screen_width - (2 * alien_width)
+    number_aliens_x = int(available_space_x / (2 * alien_width))
+
+    # Create row of aliens
+    for index in range(number_aliens_x):
+        alien = Alien(settings, screen)
+        alien.x = alien_width + (2 * alien_width * index)
+        alien.rect.x = alien.x
+        aliens.add(alien)

@@ -10,30 +10,31 @@ import game_functions as gf
 def run_game():
     """ Initialize game and create a screen object """
     pygame.init()
-    game_settings = Settings()
+    settings = Settings()
 
     # Create a screen
-    screen = pygame.display.set_mode(game_settings.screen_size)
-    pygame.display.set_caption(game_settings.window_caption)
+    screen = pygame.display.set_mode(settings.screen_size)
+    pygame.display.set_caption(settings.window_caption)
 
     # Create player object
-    ship = Ship(game_settings, screen)
+    ship = Ship(settings, screen)
     
     # A [Group] is a special list made inside pygame
     bullets = Group()
 
-    # Instance an alien
-    alien = Alien(game_settings, screen)
+    # Instance the aliens and create a fleet of them
+    aliens = Group()
+    gf.create_fleet(settings, screen, aliens)
 
     while True:
         # Check for events
-        gf.check_events(game_settings, screen, ship, bullets)
+        gf.check_events(settings, screen, ship, bullets)
 
         # Update game logic
         ship.update()
         gf.update_bullets(bullets)
 
         # Draw calls
-        gf.update_screen(game_settings, screen, ship, alien, bullets)
+        gf.update_screen(settings, screen, ship, aliens, bullets)
 
 run_game()
