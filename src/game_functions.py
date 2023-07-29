@@ -65,24 +65,33 @@ def get_number_aliens_x(settings, alien_width):
     number_aliens_x = int(available_space_x / (2 * alien_width))
     return available_space_x
 
-def create_alien(settings, screen, aliens, index):
+def get_number_rows(settings, ship_height, alien_height):
+    # Function added to perform step [2]
+    available_space_y = (settings.screen_height - (3 * alien_height)
+                        - ship_height)
+    number_rows = int(available_space_y / (2 * alien_height))
+    return number_rows
+
+def create_alien(settings, screen, aliens, x_index, y_index):
     # Function to be run [n] times during step [3] of create_fleet
     alien = Alien(settings, screen)
     alien_width = alien.rect.width
-    alien.x = alien_width + (2 * alien_width * index)
+    alien.x = alien_width + (2 * alien_width * x_index)
     alien.rect.x = alien.x
+    alien.rect.y = alien.rect.height + (2 * alien.rect.height * y_index)
     aliens.add(alien)
 
-
-def create_fleet(settings, screen, aliens):
+def create_fleet(settings, screen, ship, aliens):
     # This function has 3 steps:
     #   1 - Determine how many aliens fit laterally and create a 'row' of aliens
     #   2 - Determine how many aliens fit vertically and call that [n]
     #   3 - Run step [1], [n] times
 
     alien = Alien(settings, screen)
-    number_aliens_x = get_number_aliens_x(settings, alien.rect.width)
+    number_aliens_per_row = get_number_aliens_x(settings, alien.rect.width)
+    number_rows = get_number_rows(settings, ship.rect.height, alien.rect.height)
 
     # Create row of aliens
-    for index in range(number_aliens_x):
-        create_alien(settings, screen, aliens, index)
+    for y_index in range(number_rows):
+        for x_index in range(number_aliens_per_row):
+            create_alien(settings, screen, aliens, x_index, y_index)

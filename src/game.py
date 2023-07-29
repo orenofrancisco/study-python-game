@@ -24,7 +24,7 @@ def run_game():
 
     # Instance the aliens and create a fleet of them
     aliens = Group()
-    gf.create_fleet(settings, screen, aliens)
+    gf.create_fleet(settings, screen, ship, aliens)
 
     while True:
         # Check for events
