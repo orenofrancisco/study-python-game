@@ -5,6 +5,7 @@ from pygame.sprite import Group
 from settings import Settings
 from ship import Ship
 from alien import Alien
+from decoration import Decoration
 import game_functions as gf
 
 def run_game():
@@ -26,15 +27,19 @@ def run_game():
     aliens = Group()
     gf.create_fleet(settings, screen, ship, aliens)
 
+    # Create group of decorations
+    decorations = Decoration(settings, screen)
+
     while True:
         # Check for events
         gf.check_events(settings, screen, ship, bullets)
 
         # Update game logic
         ship.update()
+        decorations.update()
         gf.update_bullets(bullets)
 
         # Draw calls
-        gf.update_screen(settings, screen, ship, aliens, bullets)
+        gf.update_screen(settings, screen, ship, aliens, bullets, decorations)
 
 run_game()

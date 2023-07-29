@@ -31,10 +31,14 @@ def check_keyup_events(event, settings, screen, ship, bullets):
     if event.key == pygame.K_LEFT:
         ship.moving_left = False
 
-def update_screen(settings, screen, ship, aliens, bullets):
+def update_screen(settings, screen, ship, aliens, bullets, decorations):
     # Draw calls
     screen.fill(settings.bg_color)
 
+    # Clouds go first
+    decorations.blit_me()
+
+    # Then go dynamic objects
     ship.blit_me()
     aliens.draw(screen)
 
