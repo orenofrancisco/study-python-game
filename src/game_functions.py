@@ -59,6 +59,21 @@ def fire_bullet(settings, screen, ship, bullets):
         new_bullet = Bullet(settings, screen, ship)
         bullets.add(new_bullet)
 
+def get_number_aliens_x(settings, alien_width):
+    # Function added to perform step [1] of create_fleet
+    available_space_x = settings.screen_width - (2 * alien_width)
+    number_aliens_x = int(available_space_x / (2 * alien_width))
+    return available_space_x
+
+def create_alien(settings, screen, aliens, index):
+    # Function to be run [n] times during step [3] of create_fleet
+    alien = Alien(settings, screen)
+    alien_width = alien.rect.width
+    alien.x = alien_width + (2 * alien_width * index)
+    alien.rect.x = alien.x
+    aliens.add(alien)
+
+
 def create_fleet(settings, screen, aliens):
     # This function has 3 steps:
     #   1 - Determine how many aliens fit laterally and create a 'row' of aliens
@@ -66,13 +81,8 @@ def create_fleet(settings, screen, aliens):
     #   3 - Run step [1], [n] times
 
     alien = Alien(settings, screen)
-    alien_width = alien.rect.width
-    available_space_x = settings.screen_width - (2 * alien_width)
-    number_aliens_x = int(available_space_x / (2 * alien_width))
+    number_aliens_x = get_number_aliens_x(settings, alien.rect.width)
 
     # Create row of aliens
     for index in range(number_aliens_x):
-        alien = Alien(settings, screen)
-        alien.x = alien_width + (2 * alien_width * index)
-        alien.rect.x = alien.x
-        aliens.add(alien)
+        create_alien(settings, screen, aliens, index)
