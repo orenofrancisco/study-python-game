@@ -1,7 +1,9 @@
 import sys
 import pygame
+from random import randint
 from bullet import Bullet
 from alien import Alien
+from decoration import Decoration
 
 def check_events(settings, screen, ship, bullets):
     # Monitor for KB/M events
@@ -36,7 +38,8 @@ def update_screen(settings, screen, ship, aliens, bullets, decorations):
     screen.fill(settings.bg_color)
 
     # Clouds go first
-    decorations.blit_me()
+    for item in decorations:
+        item.blit_me()
 
     # Then go dynamic objects
     ship.blit_me()
@@ -99,3 +102,52 @@ def create_fleet(settings, screen, ship, aliens):
     for y_index in range(number_rows):
         for x_index in range(number_aliens_per_row):
             create_alien(settings, screen, aliens, x_index, y_index)
+
+def create_decorations(settings, screen, decorations):
+    # Create a starting set of decorations to draw on screen
+    for index in range(0, settings.decoration_max):
+        rand_x = randint(0, settings.screen_width)
+        new_decoration = Decoration(settings, screen)
+
+        new_decoration.rect.x = rand_x
+        new_decoration.rect.y = index * settings.decoration_spread
+
+        decorations.append(new_decoration)
+
+def cull_decorations(decorations, settings):
+    # Function designed to cover step 1 of update_decorations
+    for decoration in decorations.copy():
+        if decoration.rect.top > settings.screen_height:
+            decorations.remove(decoration)
+
+def populate_decorations(decorations, settings):
+    # Function designed to cover step 2 of update_decorations
+    # First we need to determine if a new decoration is needed
+    for item in decorations:
+        sample = item
+    
+    settings.decoration_frames_since_last_draw += 1
+    
+    # This equation asks the question "Is there room for another decor?"
+    if (settings.decoration_frames_since_last_draw > settings.decoration_spread
+        and len(decorations) < settings.decoration_max):
+        # The following logic is used in create_decorations as well
+        new_decoration = Decoration(sample.settings, sample.screen)
+        rand_x = randint(0, new_decoration.settings.screen_width)
+
+        new_decoration.rect.x = rand_x
+        new_decoration.rect.y = (-1 * new_decoration.rect.height)
+
+        decorations.append(new_decoration)
+        settings.decoration_frames_since_last_draw = 0
+
+def update_decorations(decorations, settings):
+    # Here we need to:
+    #   A) Cull decorations that have gone beyond drawing distance
+    #   B) Add new ones if we are below decoration_max and beyond the spread
+    #   C) Move the existing ones
+    # Not necessarily in that order
+    for item in decorations:
+        item.update()
+    cull_decorations(decorations, settings)
+    populate_decorations(decorations, settings)

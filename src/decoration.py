@@ -19,3 +19,7 @@ class Decoration():
         # This is used to render the sprite on the screen
         # Lifted from alien.py
         self.screen.blit(self.image, self.rect)
+
+    def update(self):
+        # Used to move the cloud a bit further to the bottom
+        self.rect.y += self.settings.decoration_speed

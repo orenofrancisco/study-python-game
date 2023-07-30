@@ -28,15 +28,16 @@ def run_game():
     gf.create_fleet(settings, screen, ship, aliens)
 
     # Create group of decorations
-    decorations = Decoration(settings, screen)
-
+    decorations = []
+    gf.create_decorations(settings, screen, decorations)
+    
     while True:
         # Check for events
         gf.check_events(settings, screen, ship, bullets)
 
         # Update game logic
         ship.update()
-        decorations.update()
+        gf.update_decorations(decorations, settings)
         gf.update_bullets(bullets)
 
         # Draw calls

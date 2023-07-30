@@ -22,6 +22,7 @@ class Settings():
         self.max_bullets = 5
 
         # Decoration settings
-        self.decoration_spread = 128
-        self.decoration_speed = 0.5
         self.decoration_max = 6
+        self.decoration_spread = self.screen_height / self.decoration_max
+        self.decoration_speed = 1
+        self.decoration_frames_since_last_draw = 0
