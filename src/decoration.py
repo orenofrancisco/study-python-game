@@ -14,6 +14,9 @@ class Decoration():
         # Copy settings from initializator arguments
         self.settings = settings
         self.screen = screen
+
+        # No starting position is needed as these will be assigned by
+        # create_decorations() in [game_functions.py]
     
     def blit_me(self):
         # This is used to render the sprite on the screen

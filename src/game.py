@@ -21,6 +21,10 @@ def run_game():
     ship = Ship(settings, screen)
     
     # A [Group] is a special list made inside pygame
+    # Groups have an update method prototype that we
+    # are implementing on our class definitions, so when we call
+    # thing.update() the entire group will call their own update()
+    # method in the background.
     bullets = Group()
 
     # Instance the aliens and create a fleet of them
@@ -39,6 +43,7 @@ def run_game():
         ship.update()
         gf.update_decorations(decorations, settings)
         gf.update_bullets(bullets)
+        gf.update_aliens(settings, aliens)
 
         # Draw calls
         gf.update_screen(settings, screen, ship, aliens, bullets, decorations)

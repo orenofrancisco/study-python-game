@@ -60,6 +60,12 @@ def update_bullets(bullets):
         if bullet.rect.bottom <= 0:
             bullets.remove(bullet)
 
+def update_aliens(settings, aliens):
+    # This group contains a basic update() call and will later host
+    # the despawn calls in case of a hit, collission checks, and such
+    check_fleet_edges(settings, aliens)
+    aliens.update()
+
 def fire_bullet(settings, screen, ship, bullets):
     # Spawn a bullet and add it to the list
     if len(bullets) < settings.max_bullets:
@@ -70,10 +76,10 @@ def get_number_aliens_x(settings, alien_width):
     # Function added to perform step [1] of create_fleet
     available_space_x = settings.screen_width - (2 * alien_width)
     number_aliens_x = int(available_space_x / (2 * alien_width))
-    return available_space_x
+    return number_aliens_x
 
 def get_number_rows(settings, ship_height, alien_height):
-    # Function added to perform step [2]
+    # Function added to perform step [2] of create_fleet
     available_space_y = (settings.screen_height - (3 * alien_height)
                         - ship_height)
     number_rows = int(available_space_y / (2 * alien_height))
@@ -102,6 +108,26 @@ def create_fleet(settings, screen, ship, aliens):
     for y_index in range(number_rows):
         for x_index in range(number_aliens_per_row):
             create_alien(settings, screen, aliens, x_index, y_index)
+
+def check_fleet_edges(settings, aliens):
+    # If any aliens reach the edge, reverse direction and issue a drop order
+    explored_aliens = 0
+    for alien in aliens:
+        if alien.check_edges():
+            #print("Alien [" + str(explored_aliens) + "] found breaking bounds.")
+            #print("\t[X: " + str(alien.rect.x) + "; Y: " + str(alien.rect.y)
+            #        + "; W: " + str(alien.rect.w) + "; H: " + str(alien.rect.h) + "]")
+            change_fleet_direction(settings, aliens)
+            break
+        else:
+            explored_aliens += 1
+
+def change_fleet_direction(settings, aliens):
+    # This method issues the drop order on all aliens, and reverses the direction
+    # they are going in
+    for alien in aliens:
+        alien.rect.y += settings.alien_drop_speed
+    settings.alien_direction *= -1
 
 def create_decorations(settings, screen, decorations):
     # Create a starting set of decorations to draw on screen

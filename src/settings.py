@@ -21,6 +21,11 @@ class Settings():
         self.bullet_color = (60, 60, 60)
         self.max_bullets = 5
 
+        # Alien settings
+        self.alien_speed = 1
+        self.alien_drop_speed = 10
+        self.alien_direction = 1    # 1 = right, -1 left
+
         # Decoration settings
         self.decoration_max = 6
         self.decoration_spread = self.screen_height / self.decoration_max

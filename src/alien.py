@@ -22,3 +22,18 @@ class Alien(Sprite):
     def blit_me(self):
         # This is used to render the sprite on the screen
         self.screen.blit(self.image, self.rect)
+
+    def update(self):
+        # This method handles movement of the alien and in the future
+        # it will contain methods to despawn it if hit
+        self.x += (self.settings.alien_speed * self.settings.alien_direction)
+        self.rect.x = self.x
+
+    def check_edges(self):
+        # This method returns true if the alien is touching the edges of the screen
+        screen_rect = self.screen.get_rect()
+        if self.rect.right > screen_rect.right:
+            return True
+        elif self.rect.left < 0:
+            return True
+        # Curiously, this method doesn't return False, ever
