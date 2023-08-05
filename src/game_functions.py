@@ -16,7 +16,7 @@ def check_events(settings, screen, ship, bullets):
             check_keyup_events(event, settings, screen, ship, bullets)
 
 def check_keydown_events(event, settings, screen, ship, bullets):
-    # This function only handles activating the lateral movement of the ship
+    # This function handles key presses
     if event.key == pygame.K_RIGHT:
         ship.moving_right = True
     if event.key == pygame.K_LEFT:
@@ -27,7 +27,7 @@ def check_keydown_events(event, settings, screen, ship, bullets):
         sys.exit()
 
 def check_keyup_events(event, settings, screen, ship, bullets):
-    # This function only handles deactivating the lateral movement of the ship
+    # This function handles key releases
     if event.key == pygame.K_RIGHT:
         ship.moving_right = False
     if event.key == pygame.K_LEFT:
@@ -51,7 +51,7 @@ def update_screen(settings, screen, ship, aliens, bullets, decorations):
     # Refresh screen
     pygame.display.flip()
 
-def update_bullets(aliens, bullets):
+def update_bullets(settings, screen, ship, aliens, bullets):
     # Housekeeping of bullets and logic update of the objects
     bullets.update()
 
@@ -63,6 +63,11 @@ def update_bullets(aliens, bullets):
     # Check for collission with aliens and delete the pairs that touch
     # TODO: Why capture the return value? Are you doing something with it?
     collision = pygame.sprite.groupcollide(aliens, bullets, True, True)
+
+    # If all the aliens are eliminated, spawn a new wave
+    if len(aliens) == 0:
+        bullets.empty()
+        create_fleet(settings, screen, ship, aliens)
 
 def update_aliens(settings, aliens):
     # This group contains a basic update() call and will later host
@@ -181,6 +186,3 @@ def update_decorations(decorations, settings):
         item.update()
     cull_decorations(decorations, settings)
     populate_decorations(decorations, settings)
-
-# Timer stuff
-

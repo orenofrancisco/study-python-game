@@ -15,6 +15,7 @@ def run_game():
     settings = Settings()
 
     # Create a clock to limit framerate
+    # So far that's its only responsibility
     timer = Clock()
 
     # Create a screen
@@ -46,7 +47,7 @@ def run_game():
         # Update game logic
         ship.update()
         gf.update_decorations(decorations, settings)
-        gf.update_bullets(aliens, bullets)
+        gf.update_bullets(settings, screen, ship, aliens, bullets)
         gf.update_aliens(settings, aliens)
 
         # Draw calls
