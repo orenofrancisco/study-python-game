@@ -59,9 +59,11 @@ def update_bullets(settings, screen, ship, aliens, bullets):
     for bullet in bullets.copy():
         if bullet.rect.bottom <= 0:
             bullets.remove(bullet)
-    
+
+    check_bullet_alien_collission(settings, screen, ship, aliens, bullets)
+
+def check_bullet_alien_collission(settings, screen, ship, aliens, bullets):
     # Check for collission with aliens and delete the pairs that touch
-    # TODO: Why capture the return value? Are you doing something with it?
     collision = pygame.sprite.groupcollide(aliens, bullets, True, True)
 
     # If all the aliens are eliminated, spawn a new wave
