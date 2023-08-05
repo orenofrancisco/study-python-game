@@ -51,7 +51,7 @@ def update_screen(settings, screen, ship, aliens, bullets, decorations):
     # Refresh screen
     pygame.display.flip()
 
-def update_bullets(bullets):
+def update_bullets(aliens, bullets):
     # Housekeeping of bullets and logic update of the objects
     bullets.update()
 
@@ -59,6 +59,10 @@ def update_bullets(bullets):
     for bullet in bullets.copy():
         if bullet.rect.bottom <= 0:
             bullets.remove(bullet)
+    
+    # Check for collission with aliens and delete the pairs that touch
+    # TODO: Why capture the return value? Are you doing something with it?
+    collision = pygame.sprite.groupcollide(aliens, bullets, True, True)
 
 def update_aliens(settings, aliens):
     # This group contains a basic update() call and will later host
