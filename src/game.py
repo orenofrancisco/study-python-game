@@ -1,6 +1,7 @@
 import sys
 import pygame
 from pygame.sprite import Group
+from pygame.time import Clock
 
 from settings import Settings
 from ship import Ship
@@ -12,6 +13,9 @@ def run_game():
     """ Initialize game and create a screen object """
     pygame.init()
     settings = Settings()
+
+    # Create a clock to limit framerate
+    timer = Clock()
 
     # Create a screen
     screen = pygame.display.set_mode(settings.screen_size)
@@ -34,7 +38,7 @@ def run_game():
     # Create group of decorations
     decorations = []
     gf.create_decorations(settings, screen, decorations)
-    
+
     while True:
         # Check for events
         gf.check_events(settings, screen, ship, bullets)
@@ -47,5 +51,8 @@ def run_game():
 
         # Draw calls
         gf.update_screen(settings, screen, ship, aliens, bullets, decorations)
+
+        # Delay for next frame
+        timer.tick(settings.framerate_cap)
 
 run_game()

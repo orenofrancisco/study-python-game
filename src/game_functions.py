@@ -177,3 +177,6 @@ def update_decorations(decorations, settings):
         item.update()
     cull_decorations(decorations, settings)
     populate_decorations(decorations, settings)
+
+# Timer stuff
+
