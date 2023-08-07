@@ -71,11 +71,16 @@ def check_bullet_alien_collission(settings, screen, ship, aliens, bullets):
         bullets.empty()
         create_fleet(settings, screen, ship, aliens)
 
-def update_aliens(settings, aliens):
+def update_aliens(ship, settings, aliens):
     # This group contains a basic update() call and will later host
     # the despawn calls in case of a hit, collission checks, and such
     check_fleet_edges(settings, aliens)
     aliens.update()
+
+    # If the ship is touched by an alien ship, destroy it
+    if pygame.sprite.spritecollideany(ship, aliens):
+        print("SHIP COLLISSION DETECTED! EXITING...")
+        sys.exit()
 
 def fire_bullet(settings, screen, ship, bullets):
     # Spawn a bullet and add it to the list

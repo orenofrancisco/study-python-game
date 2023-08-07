@@ -48,7 +48,7 @@ def run_game():
         ship.update()
         gf.update_decorations(decorations, settings)
         gf.update_bullets(settings, screen, ship, aliens, bullets)
-        gf.update_aliens(settings, aliens)
+        gf.update_aliens(ship, settings, aliens)
 
         # Draw calls
         gf.update_screen(settings, screen, ship, aliens, bullets, decorations)
