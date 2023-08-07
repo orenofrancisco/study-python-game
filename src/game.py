@@ -7,12 +7,14 @@ from settings import Settings
 from ship import Ship
 from alien import Alien
 from decoration import Decoration
+from game_stats import GameStats
 import game_functions as gf
 
 def run_game():
     """ Initialize game and create a screen object """
     pygame.init()
     settings = Settings()
+    stats = GameStats(settings)
 
     # Create a clock to limit framerate
     # So far that's its only responsibility
@@ -37,6 +39,8 @@ def run_game():
     gf.create_fleet(settings, screen, ship, aliens)
 
     # Create group of decorations
+    # TODO: Actually use a Group(), I used a basic list because I couldn't get
+    # TODO: the group to work. 
     decorations = []
     gf.create_decorations(settings, screen, decorations)
 
@@ -48,7 +52,7 @@ def run_game():
         ship.update()
         gf.update_decorations(decorations, settings)
         gf.update_bullets(settings, screen, ship, aliens, bullets)
-        gf.update_aliens(ship, settings, aliens)
+        gf.update_aliens(screen, settings, ship, stats, aliens, bullets)
 
         # Draw calls
         gf.update_screen(settings, screen, ship, aliens, bullets, decorations)

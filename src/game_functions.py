@@ -1,5 +1,7 @@
 import sys
 import pygame
+from time import sleep
+
 from random import randint
 from bullet import Bullet
 from alien import Alien
@@ -71,7 +73,7 @@ def check_bullet_alien_collission(settings, screen, ship, aliens, bullets):
         bullets.empty()
         create_fleet(settings, screen, ship, aliens)
 
-def update_aliens(ship, settings, aliens):
+def update_aliens(screen, settings, ship, stats, aliens, bullets):
     # This group contains a basic update() call and will later host
     # the despawn calls in case of a hit, collission checks, and such
     check_fleet_edges(settings, aliens)
@@ -79,8 +81,29 @@ def update_aliens(ship, settings, aliens):
 
     # If the ship is touched by an alien ship, destroy it
     if pygame.sprite.spritecollideany(ship, aliens):
-        print("SHIP COLLISSION DETECTED! EXITING...")
-        sys.exit()
+        ship_hit(screen, settings, ship, stats, aliens, bullets)
+
+def ship_hit(screen, settings, ship, stats, aliens, bullets):
+    # The order of operations should be the following:
+    # 1) Reduce lives by 1
+    # 2) Clear aliens and bullets from the playfield
+    # 3) Spawn a new wave and center the ship
+    # 4) Give a little pause so the player can register what just happened
+    # 5) OPTIONAL: Use some text rendering to tell the player what's going on
+
+    # 1
+    stats.ships_left -= 1
+
+    # 2
+    aliens.empty()
+    bullets.empty()
+    
+    # 3
+    create_fleet(settings, screen, ship, aliens)
+    ship.rect.centerx = screen.get_rect().centerx
+
+    # 4
+    sleep(0.5)
 
 def fire_bullet(settings, screen, ship, bullets):
     # Spawn a bullet and add it to the list
@@ -130,9 +153,6 @@ def check_fleet_edges(settings, aliens):
     explored_aliens = 0
     for alien in aliens:
         if alien.check_edges():
-            #print("Alien [" + str(explored_aliens) + "] found breaking bounds.")
-            #print("\t[X: " + str(alien.rect.x) + "; Y: " + str(alien.rect.y)
-            #        + "; W: " + str(alien.rect.w) + "; H: " + str(alien.rect.h) + "]")
             change_fleet_direction(settings, aliens)
             break
         else:
