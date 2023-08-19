@@ -35,7 +35,7 @@ def check_keyup_events(event, settings, screen, ship, bullets):
     if event.key == pygame.K_LEFT:
         ship.moving_left = False
 
-def update_screen(settings, screen, ship, aliens, bullets, decorations):
+def update_screen(settings, screen, stats, ship, aliens, bullets, decorations, play_button):
     # Draw calls
     screen.fill(settings.bg_color)
 
@@ -49,6 +49,10 @@ def update_screen(settings, screen, ship, aliens, bullets, decorations):
 
     for bullet in bullets.sprites():
         bullet.draw_bullet()
+
+    # This button should be on top of everything else
+    if not stats.game_active:
+        play_button.draw_button()
 
     # Refresh screen
     pygame.display.flip()
