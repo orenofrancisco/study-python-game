@@ -73,6 +73,15 @@ def check_bullet_alien_collission(settings, screen, ship, aliens, bullets):
         bullets.empty()
         create_fleet(settings, screen, ship, aliens)
 
+def check_aliens_bottom(settings, stats, screen, ship, aliens, bullets):
+    # Check if aliens have reached the bottom of the screen, then 
+    # activate the ship_hit function, as a standin for a loss scenario
+    screen_rect = screen.get_rect()
+    for alien in aliens.sprites():
+        if alien.rect.bottom >= screen_rect.bottom:
+            ship_hit(screen, settings, ship, stats, aliens, bullets)
+            break
+
 def update_aliens(screen, settings, ship, stats, aliens, bullets):
     # This group contains a basic update() call and will later host
     # the despawn calls in case of a hit, collission checks, and such
@@ -83,6 +92,9 @@ def update_aliens(screen, settings, ship, stats, aliens, bullets):
     if pygame.sprite.spritecollideany(ship, aliens):
         ship_hit(screen, settings, ship, stats, aliens, bullets)
 
+    # If the alien ship reaches the end of the screen, proc a loss condition
+    check_aliens_bottom(settings, stats, screen, ship, aliens, bullets)
+
 def ship_hit(screen, settings, ship, stats, aliens, bullets):
     # The order of operations should be the following:
     # 1) Reduce lives by 1
@@ -90,20 +102,20 @@ def ship_hit(screen, settings, ship, stats, aliens, bullets):
     # 3) Spawn a new wave and center the ship
     # 4) Give a little pause so the player can register what just happened
     # 5) OPTIONAL: Use some text rendering to tell the player what's going on
-
-    # 1
-    stats.ships_left -= 1
-
-    # 2
-    aliens.empty()
-    bullets.empty()
     
-    # 3
-    create_fleet(settings, screen, ship, aliens)
-    ship.rect.centerx = screen.get_rect().centerx
+    if stats.ships_left > 0:
+        stats.ships_left -= 1
 
-    # 4
-    sleep(0.5)
+        aliens.empty()
+        bullets.empty()
+        
+        create_fleet(settings, screen, ship, aliens)
+        ship.rect.centerx = screen.get_rect().centerx
+
+        sleep(0.5)
+    else:
+        stats.game_active = False
+
 
 def fire_bullet(settings, screen, ship, bullets):
     # Spawn a bullet and add it to the list

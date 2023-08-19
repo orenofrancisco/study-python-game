@@ -24,7 +24,7 @@ class Settings():
         self.max_bullets = 8
 
         # Alien settings
-        self.alien_speed = 2
+        self.alien_speed = 8
         self.alien_drop_speed = 5
         self.alien_direction = 1    # 1 = right, -1 left
 

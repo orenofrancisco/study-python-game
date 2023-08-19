@@ -48,11 +48,12 @@ def run_game():
         # Check for events
         gf.check_events(settings, screen, ship, bullets)
 
-        # Update game logic
-        ship.update()
-        gf.update_decorations(decorations, settings)
-        gf.update_bullets(settings, screen, ship, aliens, bullets)
-        gf.update_aliens(screen, settings, ship, stats, aliens, bullets)
+        # Update game logic, should only happen if the gamestate is 'active'
+        if stats.game_active:
+            ship.update()
+            gf.update_decorations(decorations, settings)
+            gf.update_bullets(settings, screen, ship, aliens, bullets)
+            gf.update_aliens(screen, settings, ship, stats, aliens, bullets)
 
         # Draw calls
         gf.update_screen(settings, screen, ship, aliens, bullets, decorations)

@@ -9,6 +9,9 @@ class GameStats():
         self.settings = settings
         self.reset_stats()
 
+        # Start the game in 'active' state
+        # Loss conditions will later set this to false and the game ends.
+        self.game_active = True
+
     def reset_stats(self):
         self.ships_left = self.settings.ship_limit
-        
