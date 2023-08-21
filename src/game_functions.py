@@ -57,7 +57,7 @@ def check_keyup_events(event, settings, screen, ship, bullets):
     if event.key == pygame.K_LEFT:
         ship.moving_left = False
 
-def update_screen(settings, screen, stats, ship, aliens, bullets, decorations, play_button):
+def update_screen(settings, screen, stats, banner, ship, aliens, bullets, decorations, play_button):
     # Draw calls
     screen.fill(settings.bg_color)
 
@@ -72,6 +72,9 @@ def update_screen(settings, screen, stats, ship, aliens, bullets, decorations, p
     for bullet in bullets.sprites():
         bullet.draw_bullet()
 
+    # Draw UI elements
+    banner.show_score()
+
     # This button should be on top of everything else
     if not stats.game_active:
         play_button.draw_button()
@@ -79,7 +82,7 @@ def update_screen(settings, screen, stats, ship, aliens, bullets, decorations, p
     # Refresh screen
     pygame.display.flip()
 
-def update_bullets(settings, screen, ship, aliens, bullets):
+def update_bullets(settings, screen, stats, banner, ship, aliens, bullets):
     # Housekeeping of bullets and logic update of the objects
     bullets.update()
 
@@ -88,11 +91,17 @@ def update_bullets(settings, screen, ship, aliens, bullets):
         if bullet.rect.bottom <= 0:
             bullets.remove(bullet)
 
-    check_bullet_alien_collission(settings, screen, ship, aliens, bullets)
+    check_bullet_alien_collission(settings, screen, stats, banner, ship, aliens, bullets)
 
-def check_bullet_alien_collission(settings, screen, ship, aliens, bullets):
+def check_bullet_alien_collission(settings, screen, stats, banner, ship, aliens, bullets):
     # Check for collission with aliens and delete the pairs that touch
     collision = pygame.sprite.groupcollide(aliens, bullets, True, True)
+
+    # If a collission is found (or many) then update the scoreboard
+    if collision:
+        for aliens in collision.values():
+            stats.score += settings.alien_points * len(aliens)
+            banner.prep_score()
 
     # If all the aliens are eliminated, spawn a new wave and increase difficulty
     if len(aliens) == 0:

@@ -38,6 +38,7 @@ class Settings():
         self.ship_speed_factor = 5
         self.bullet_speed_factor = 10
         self.alien_speed = 8
+        self.alien_points = 50
         self.alien_direction = 1    # 1 = right, -1 left
 
     def increase_speed(self):

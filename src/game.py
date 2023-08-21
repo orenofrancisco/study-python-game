@@ -9,6 +9,7 @@ from alien import Alien
 from decoration import Decoration
 from game_stats import GameStats
 from button import Button
+from scoreboard import Scoreboard
 import game_functions as gf
 
 def run_game():
@@ -16,14 +17,16 @@ def run_game():
     pygame.init()
     settings = Settings()
     stats = GameStats(settings)
+    
+    # Create a screen
+    screen = pygame.display.set_mode(settings.screen_size)
+    pygame.display.set_caption(settings.window_caption)
+    
+    banner = Scoreboard(settings, screen, stats)
 
     # Create a clock to limit framerate
     # So far that's its only responsibility
     timer = Clock()
-
-    # Create a screen
-    screen = pygame.display.set_mode(settings.screen_size)
-    pygame.display.set_caption(settings.window_caption)
 
     # Big loud play button
     play_button = Button(settings, screen, "Play")
@@ -56,11 +59,11 @@ def run_game():
         if stats.game_active:
             ship.update()
             gf.update_decorations(decorations, settings)
-            gf.update_bullets(settings, screen, ship, aliens, bullets)
+            gf.update_bullets(settings, screen, stats, banner, ship, aliens, bullets)
             gf.update_aliens(screen, settings, ship, stats, aliens, bullets)
 
         # Draw calls
-        gf.update_screen(settings, screen, stats, ship, aliens, bullets, decorations, play_button)
+        gf.update_screen(settings, screen, stats, banner, ship, aliens, bullets, decorations, play_button)
 
         # Delay for next frame
         timer.tick(settings.framerate_cap)

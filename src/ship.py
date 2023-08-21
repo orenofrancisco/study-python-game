@@ -13,7 +13,7 @@ class Ship():
         self.screen_rect = self.screen.get_rect()
 
         # Get the ship picture and store statistics about it
-        self.color = 'red'    # ok for green, blue, red or yellow
+        self.color = 'green'    # ok for green, blue, red or yellow
         self.image = pygame.image.load("../images/ship_" + self.color + ".png").convert_alpha()
         self.rect = self.image.get_rect()
 
