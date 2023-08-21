@@ -9,3 +9,20 @@ I've taken some liberties with the theme, I'm using planes instead of ships and 
 Have a good day, thank you for reading.
 
 Visual assets made by [Kenney](https://kenney.nl/), all credit to him/them.
+
+# Dependencies
+
+It relies on ```pygame``` to work, here are instructions on how to get it for your chosen platform:
+
+[Pygame Install Guide](https://www.pygame.org/wiki/GettingStarted) 
+
+# Playing the game
+
+To play it, clone the repository into a folder of your choosing.     
+Then, from the ```src/``` folder and run ```game.py```, like so:
+
+```
+git clone https://github.com/orenofrancisco/study-python-game.git    
+cd study-python-game/src/
+python3 game.py
+```
