@@ -27,6 +27,7 @@ def check_play_button(settings, screen, stats, play_button, ship, aliens, bullet
         pygame.mouse.set_visible(False)
 
         # Reset game-state first
+        settings.initialize_dynamic_settings()
         stats.reset_stats()
         stats.game_active = True
 
@@ -93,9 +94,10 @@ def check_bullet_alien_collission(settings, screen, ship, aliens, bullets):
     # Check for collission with aliens and delete the pairs that touch
     collision = pygame.sprite.groupcollide(aliens, bullets, True, True)
 
-    # If all the aliens are eliminated, spawn a new wave
+    # If all the aliens are eliminated, spawn a new wave and increase difficulty
     if len(aliens) == 0:
         bullets.empty()
+        settings.increase_speed()
         create_fleet(settings, screen, ship, aliens)
 
 def check_aliens_bottom(settings, stats, screen, ship, aliens, bullets):
