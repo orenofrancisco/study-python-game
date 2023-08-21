@@ -23,7 +23,8 @@ class Settings():
 
         # Alien settings
         self.alien_drop_speed = 8
-        self.speedup_scale = 1.3
+        self.speedup_scale = 1.2
+        self.score_scale = 1.5
 
         # Decoration settings
         self.decoration_max = 10
@@ -35,10 +36,12 @@ class Settings():
 
     def initialize_dynamic_settings(self):
         # We can call this function to reset the progress the player has made
+        # or to create the variables that store information subject to change
+        # as the waves go on
         self.ship_speed_factor = 5
         self.bullet_speed_factor = 10
         self.alien_speed = 8
-        self.alien_points = 50
+        self.alien_points = 100
         self.alien_direction = 1    # 1 = right, -1 left
 
     def increase_speed(self):
@@ -47,3 +50,4 @@ class Settings():
         self.ship_speed_factor *= self.speedup_scale
         self.bullet_speed_factor *= self.speedup_scale
         self.alien_speed *= self.speedup_scale
+        self.alien_points = int(self.alien_points * self.score_scale)

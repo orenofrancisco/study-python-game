@@ -19,8 +19,11 @@ class Scoreboard():
         self.prep_score()
 
     def prep_score(self):
-        # First generate the image of the text
-        score_str = str(self.stats.score)
+        # Round the score to a multiple of 10
+        rounded_score = int(round(self.stats.score, -1))
+        
+        # Generate the image of the text
+        score_str = "{:,}".format(rounded_score)
         self.score_image = self.font.render(score_str, True,
                 self.text_color, self.settings.bg_color)
 
