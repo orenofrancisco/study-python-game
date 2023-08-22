@@ -74,6 +74,7 @@ def update_screen(settings, screen, stats, banner, ship, aliens, bullets, decora
 
     # Draw UI elements
     banner.show_score()
+    banner.show_high_score()
 
     # This button should be on top of everything else
     if not stats.game_active:
@@ -95,13 +96,15 @@ def update_bullets(settings, screen, stats, banner, ship, aliens, bullets):
 
 def check_bullet_alien_collission(settings, screen, stats, banner, ship, aliens, bullets):
     # Check for collission with aliens and delete the pairs that touch
-    collision = pygame.sprite.groupcollide(aliens, bullets, True, True)
+    collision = pygame.sprite.groupcollide(aliens, bullets, True, False)
 
     # If a collission is found (or many) then update the scoreboard
     if collision:
         for aliens in collision.values():
             stats.score += settings.alien_points * len(aliens)
             banner.prep_score()
+
+        check_high_score(stats, banner)
 
     # If all the aliens are eliminated, spawn a new wave and increase difficulty
     if len(aliens) == 0:
@@ -261,3 +264,9 @@ def update_decorations(decorations, settings):
         item.update()
     cull_decorations(decorations, settings)
     populate_decorations(decorations, settings)
+
+def check_high_score(stats, banner):
+    # If the score is higher than the high score, then save it and prep the banner
+    if stats.score > stats.high_score:
+        stats.high_score = stats.score
+        banner.prep_high_score()

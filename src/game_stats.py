@@ -7,6 +7,7 @@ class GameStats():
 
     def __init__(self, settings):
         self.settings = settings
+        self.high_score = 0
         self.reset_stats()
 
         # Start the game in 'active' state
