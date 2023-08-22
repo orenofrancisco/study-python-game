@@ -7,7 +7,7 @@ from bullet import Bullet
 from alien import Alien
 from decoration import Decoration
 
-def check_events(settings, screen, stats, play_button, ship, aliens, bullets):
+def check_events(settings, screen, stats, play_button, banner, ship, aliens, bullets):
     # Monitor for KB/M events
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -18,9 +18,9 @@ def check_events(settings, screen, stats, play_button, ship, aliens, bullets):
             check_keyup_events(event, settings, screen, ship, bullets)
         elif event.type == pygame.MOUSEBUTTONDOWN:
             mouse_x, mouse_y = pygame.mouse.get_pos()
-            check_play_button(settings, screen, stats, play_button, ship, aliens, bullets, mouse_x, mouse_y)
+            check_play_button(settings, screen, stats, play_button, banner, ship, aliens, bullets, mouse_x, mouse_y)
 
-def check_play_button(settings, screen, stats, play_button, ship, aliens, bullets, mouse_x, mouse_y):
+def check_play_button(settings, screen, stats, play_button, banner, ship, aliens, bullets, mouse_x, mouse_y):
     # Check if the mouse is inside the box and set game_active to True if yes
     if play_button.rect.collidepoint(mouse_x, mouse_y) and not stats.game_active:
         # Hide the mouse during play
@@ -30,6 +30,11 @@ def check_play_button(settings, screen, stats, play_button, ship, aliens, bullet
         settings.initialize_dynamic_settings()
         stats.reset_stats()
         stats.game_active = True
+
+        # Prepare UI elements
+        banner.prep_score()
+        banner.prep_high_score()
+        banner.prep_level()
 
         # Clear the gameboard of items
         aliens.empty()
@@ -75,6 +80,7 @@ def update_screen(settings, screen, stats, banner, ship, aliens, bullets, decora
     # Draw UI elements
     banner.show_score()
     banner.show_high_score()
+    banner.show_level()
 
     # This button should be on top of everything else
     if not stats.game_active:
@@ -108,8 +114,14 @@ def check_bullet_alien_collission(settings, screen, stats, banner, ship, aliens,
 
     # If all the aliens are eliminated, spawn a new wave and increase difficulty
     if len(aliens) == 0:
+        # Clear the board
         bullets.empty()
+        
+        # Push difficulty related things forward
         settings.increase_speed()
+        stats.level += 1
+        banner.prep_level()
+
         create_fleet(settings, screen, ship, aliens)
 
 def check_aliens_bottom(settings, stats, screen, ship, aliens, bullets):

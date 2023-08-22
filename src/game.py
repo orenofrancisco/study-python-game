@@ -53,7 +53,7 @@ def run_game():
 
     while True:
         # Check for events
-        gf.check_events(settings, screen, stats, play_button, ship, aliens, bullets)
+        gf.check_events(settings, screen, stats, play_button, banner, ship, aliens, bullets)
 
         # Update game logic, should only happen if the gamestate is 'active'
         if stats.game_active:
