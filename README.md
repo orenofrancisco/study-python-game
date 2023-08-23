@@ -6,7 +6,8 @@ It is a Space Invaders clone made with free assets, and following instructions f
 
 I've taken some liberties with the theme, I'm using planes instead of ships and clouds instead of stars, but the game is the same.
 
-Have a good day, thank you for reading.
+*Development has now slowed down since the game is, if a bit rough, playable and relatively bug free.
+I'll resume development later on, to practice polishing the product a bit more.*
 
 Visual assets made by [Kenney](https://kenney.nl/), all credit to him/them.
 
