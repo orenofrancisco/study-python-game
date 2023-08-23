@@ -35,6 +35,7 @@ def check_play_button(settings, screen, stats, play_button, banner, ship, aliens
         banner.prep_score()
         banner.prep_high_score()
         banner.prep_level()
+        banner.prep_ships()
 
         # Clear the gameboard of items
         aliens.empty()
@@ -81,6 +82,7 @@ def update_screen(settings, screen, stats, banner, ship, aliens, bullets, decora
     banner.show_score()
     banner.show_high_score()
     banner.show_level()
+    banner.show_ships()
 
     # This button should be on top of everything else
     if not stats.game_active:
@@ -133,7 +135,7 @@ def check_aliens_bottom(settings, stats, screen, ship, aliens, bullets):
             ship_hit(screen, settings, ship, stats, aliens, bullets)
             break
 
-def update_aliens(screen, settings, ship, stats, aliens, bullets):
+def update_aliens(banner, screen, settings, ship, stats, aliens, bullets):
     # This group contains a basic update() call and will later host
     # the despawn calls in case of a hit, collission checks, and such
     check_fleet_edges(settings, aliens)
@@ -141,21 +143,22 @@ def update_aliens(screen, settings, ship, stats, aliens, bullets):
 
     # If the ship is touched by an alien ship, destroy it
     if pygame.sprite.spritecollideany(ship, aliens):
-        ship_hit(screen, settings, ship, stats, aliens, bullets)
+        ship_hit(banner, screen, settings, ship, stats, aliens, bullets)
 
     # If the alien ship reaches the end of the screen, proc a loss condition
     check_aliens_bottom(settings, stats, screen, ship, aliens, bullets)
 
-def ship_hit(screen, settings, ship, stats, aliens, bullets):
+def ship_hit(banner, screen, settings, ship, stats, aliens, bullets):
     # The order of operations should be the following:
     # 1) Reduce lives by 1
     # 2) Clear aliens and bullets from the playfield
     # 3) Spawn a new wave and center the ship
     # 4) Give a little pause so the player can register what just happened
     # 5) OPTIONAL: Use some text rendering to tell the player what's going on
-    
     if stats.ships_left > 0:
         stats.ships_left -= 1
+
+        banner.prep_ships()
 
         aliens.empty()
         bullets.empty()

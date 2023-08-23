@@ -1,6 +1,7 @@
 import pygame
+from pygame.sprite import Sprite    # I have to inherit Sprite to use the Group class
 
-class Ship():
+class Ship(Sprite):
     """ This class holds information relative to the player object, the ship.
     It has methods to draw it, and its constructor fetches information 
     from pygame to give it context-appropriate attributes. """
@@ -8,6 +9,7 @@ class Ship():
     def __init__(self, settings, screen):
         # During initialization, the ship should reference which screen
         # it should be drawn on, and collect some stats about it
+        super().__init__()
         self.screen = screen
         self.settings = settings
         self.screen_rect = self.screen.get_rect()
